@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package com.dev.objects;
+=======
+package  com.dev.objects;
+>>>>>>> origin/master
 
 import java.util.Date;
 
