@@ -36,8 +36,15 @@ Persist {
             preparedStatement.setString(1,username);
             preparedStatement.setString(2,password);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next())
+            if (resultSet.next()){
                 token = resultSet.getString("token");
+            }else{
+                if(this.doesUsernameExist(username)){
+                    token = "password";
+                }else {
+                    token = "username";
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
