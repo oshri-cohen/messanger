@@ -26,36 +26,89 @@ Persist {
         System.out.println("Connection");
     }
 
-    public String doesUserExist(String username, String password){
+    public String doesUserExist(String username, String password) {
         String token = null;
         try {
-            createConnectionToDatabase();
-            PreparedStatement preparedStatement = this.connection.prepareStatement(
-                    "SELECT token FROM user WHERE username = ? AND password = ?"
-            );
-            preparedStatement.setString(1,username);
-            preparedStatement.setString(2,password);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
-                token = resultSet.getString("token");
-            }else{
-                if(this.doesUsernameExist(username)){
-                    token = "password";
-                }else {
-                    token = "username";
+            if (this.doesUsernameExist(username)) {
+                int blocks = this.getUserCountLoginFaild(username);
+                if (blocks < 5) {
+                    createConnectionToDatabase();
+                    PreparedStatement preparedStatement = this.connection.prepareStatement(
+                            "SELECT token FROM user WHERE username = ? AND password = ?"
+                    );
+                    preparedStatement.setString(1, username);
+                    preparedStatement.setString(2, password);
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    if (resultSet.next()) {
+                        token = resultSet.getString("token");
+                        this.setUserCountLoginFaild(username, 0);
+                    }else {
+                        if(blocks+1<5){
+                            token = "password";
+                            this.setUserCountLoginFaild(username, blocks + 1);
+                        }else {
+                            token = "block";
+                        }
+                    }
+                } else {
+                    token = "block";
                 }
+            } else {
+                token = "username";
             }
+            return token;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return token;
+    return token;
+}
+
+
+
+
+    public boolean setUserCountLoginFaild(String username, int blocks){
+        createConnectionToDatabase();
+        boolean success =false;
+        try {
+            PreparedStatement preparedStatement1 = this.connection.prepareStatement(
+                    "UPDATE user SET countLoginFaild=? WHERE username = ?"
+            );
+            preparedStatement1.setInt(1,blocks);
+            preparedStatement1.setString(2,username);
+            int resultSet = preparedStatement1.executeUpdate();
+            success = resultSet ==1 ? true : false ;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return success;
+    }
+
+
+    public int getUserCountLoginFaild(String username){
+        createConnectionToDatabase();
+        try {
+            int blocks =-1;
+            PreparedStatement preparedStatement3 = this.connection.prepareStatement(
+                    "SELECT countLoginFaild FROM user WHERE username = ?"
+            );
+            preparedStatement3.setString(1, username);
+            ResultSet resultSet1 = preparedStatement3.executeQuery();
+            if(resultSet1.next()){
+                blocks = resultSet1.getInt("countLoginFaild");
+
+            }
+            return blocks;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return -1;
     }
 
 
     public boolean doesUsernameExist(String username){
+        createConnectionToDatabase();
         boolean isExist = false;
         try {
-            createConnectionToDatabase();
             PreparedStatement preparedStatement = this.connection.prepareStatement(
                     "SELECT token FROM user WHERE username = ?"
             );

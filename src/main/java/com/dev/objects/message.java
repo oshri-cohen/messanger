@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-package com.dev.objects;
-=======
-package  com.dev.objects;
->>>>>>> origin/master
 
+package com.dev.objects;
 import java.util.Date;
 
 public class message {

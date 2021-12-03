@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-package com.dev.objects;
 
-public class userObject {
-}
-=======
-package  com.dev.objects;
+package com.dev.objects;
 
 public class userObject {
     int id;
@@ -81,4 +76,4 @@ public class userObject {
     }
 
 }
->>>>>>> origin/master
+
