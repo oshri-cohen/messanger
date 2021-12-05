@@ -53,6 +53,21 @@ public class TestController {
         return  persist.getAllMyMessages(token);
     }
 
+    @RequestMapping("deleteMessage")
+    public boolean deleteMessage(int id){
+        return persist.deleteMessages(id);
+    }
+
+    @RequestMapping("markAsRead")
+    public boolean markAsRead(int id){
+        return persist.markAsRead(id);
+    }
+
+    @RequestMapping("sendMessage")
+    public boolean sendMessage(String username, String title, String content, String token){
+        return persist.sendMessage(username, title, content ,token);
+    }
+
     public static String createHash (String username, String password) {
         String myHash = null;
         try {

@@ -10,13 +10,22 @@ public class message {
     String body;
     Date sendTime;
     Date readTime;
+    int messageId;
 
+
+    public int getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(int messageId) {
+        this.messageId = messageId;
+    }
 
     public message(){
     }
 
 
-    public message(int senderId, int addressId, String title, String body, Date sendTime, Date readTime , String senderName) {
+    public message(int senderId, int addressId, String title, String body, Date sendTime, Date readTime , String senderName, int messageId) {
         this.senderId = senderId;
         this.addressId = addressId;
         this.title = title;
@@ -24,6 +33,7 @@ public class message {
         this.sendTime = sendTime;
         this.readTime = readTime;
         this.senderName = senderName;
+        this.messageId = messageId;
     }
 
     public message(message message){
@@ -34,6 +44,7 @@ public class message {
         this.body = message.body;
         this.sendTime = message.sendTime;
         this.readTime = message.readTime;
+        this.messageId =message.messageId;
     }
 
     public int getSenderId() {

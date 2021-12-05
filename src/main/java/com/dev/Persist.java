@@ -66,6 +66,40 @@ Persist {
     return token;
     }
 
+    public boolean deleteMessages(int id){
+        boolean done = false;
+        try {
+            createConnectionToDatabase();
+            PreparedStatement preparedStatement = this.connection.prepareStatement(
+                    "DELETE FROM messages WHERE messageId =?"
+            );
+            preparedStatement.setInt(1,id);
+            int updates = preparedStatement.executeUpdate();
+            done = updates == 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return done;
+    }
+
+    public boolean markAsRead(int id){
+        createConnectionToDatabase();
+        System.out.println("mark");
+        boolean success =false;
+        try {
+            PreparedStatement preparedStatement1 = this.connection.prepareStatement(
+                    "UPDATE messages SET readTime= now()  WHERE messageId = ?"
+            );
+            preparedStatement1.setInt(1,id);
+            int resultSet = preparedStatement1.executeUpdate();
+            success = resultSet ==1 ? true : false ;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return success;
+    }
+
+
     public List<message> getAllMyMessages(String token){
         List<message> messages = new ArrayList<>();
         int id = getUserIdByToken(token);
@@ -74,9 +108,9 @@ Persist {
             PreparedStatement preparedStatement = this.connection.prepareStatement(
                     "SELECT messenger.messages.* FROM messages JOIN user u on u.id = messages.addresseeId WHERE addresseeId =?"
             );
-            preparedStatement.setString(1, token);
+            preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 message message = new message();
                 message.setSenderId(resultSet.getInt("senderId"));
                 message.setAddressId(id);
@@ -85,6 +119,7 @@ Persist {
                 message.setReadTime(resultSet.getTime("readTime"));
                 message.setSendTime(resultSet.getTime("sendTime"));
                 message.setSenderName(this.getUsernameById(resultSet.getInt("senderId")));
+                message.setMessageId(resultSet.getInt("messageId"));
                 messages.add(message);
             }
         }catch (SQLException e){
@@ -201,6 +236,43 @@ Persist {
         return done;
     }
 
+    public Integer getUserIdByUsername(String username){
+        Integer id = null;
+        try {
+            PreparedStatement preparedStatement = this.connection.prepareStatement("SELECT id FROM user WHERE username = ?");
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                id = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    public boolean sendMessage(String username, String title, String content, String token){
+        boolean success = false;
+        try {
+            int senderId = this.getUserIdByToken(token);
+            int addresseeId = this.getUserIdByUsername(username);
+            createConnectionToDatabase();
+            PreparedStatement preparedStatement1 = this.connection.prepareStatement(
+                        "INSERT INTO messages (senderId, addresseeId, title, body, sendTime) VALUES (?,?,?,?,now()) "
+                );
+            preparedStatement1.setInt(1, senderId);
+            preparedStatement1.setInt(2, addresseeId);
+            preparedStatement1.setString(3, title);
+            preparedStatement1.setString(4, content);
+            int updates = preparedStatement1.executeUpdate();
+                if (updates > 0) {
+                    success = true;
+                }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return success;
+    }
 
 
 }
