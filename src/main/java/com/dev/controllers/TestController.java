@@ -1,6 +1,7 @@
 package com.dev.controllers;
 
 import com.dev.Persist;
+import com.dev.objects.message;
 import com.dev.objects.userObject;
 import com.dev.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,8 @@ import javax.annotation.PostConstruct;
 import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -44,6 +46,11 @@ public class TestController {
             success= persist.createUser(userObject);
         }
         return success;
+    }
+
+    @RequestMapping("MyMessages")
+    public List<message> myMessages(String token){
+        return  persist.getAllMyMessages(token);
     }
 
     public static String createHash (String username, String password) {

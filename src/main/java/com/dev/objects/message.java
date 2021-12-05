@@ -4,23 +4,31 @@ import java.util.Date;
 
 public class message {
     int senderId;
+    String senderName;
     int addressId;
     String title;
     String body;
     Date sendTime;
     Date readTime;
 
-    public message(int senderId, int addressId, String title, String body, Date sendTime, Date readTime) {
+
+    public message(){
+    }
+
+
+    public message(int senderId, int addressId, String title, String body, Date sendTime, Date readTime , String senderName) {
         this.senderId = senderId;
         this.addressId = addressId;
         this.title = title;
         this.body = body;
         this.sendTime = sendTime;
         this.readTime = readTime;
+        this.senderName = senderName;
     }
 
     public message(message message){
         this.senderId = message.senderId;
+        this.senderName = message.senderName;
         this.addressId = message.addressId;
         this.title = message.title;
         this.body = message.body;
@@ -34,6 +42,14 @@ public class message {
 
     public void setSenderId(int senderId) {
         this.senderId = senderId;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
     }
 
     public int getAddressId() {
