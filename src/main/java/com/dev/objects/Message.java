@@ -2,7 +2,7 @@
 package com.dev.objects;
 import java.util.Date;
 
-public class message {
+public class Message {
     int senderId;
     String senderName;
     int addressId;
@@ -21,11 +21,11 @@ public class message {
         this.messageId = messageId;
     }
 
-    public message(){
+    public Message(){
     }
 
 
-    public message(int senderId, int addressId, String title, String body, Date sendTime, Date readTime , String senderName, int messageId) {
+    public Message(int senderId, int addressId, String title, String body, Date sendTime, Date readTime , String senderName, int messageId) {
         this.senderId = senderId;
         this.addressId = addressId;
         this.title = title;
@@ -36,7 +36,7 @@ public class message {
         this.messageId = messageId;
     }
 
-    public message(message message){
+    public Message(Message message){
         this.senderId = message.senderId;
         this.senderName = message.senderName;
         this.addressId = message.addressId;

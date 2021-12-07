@@ -1,7 +1,7 @@
 package com.dev;
 
-import com.dev.objects.message;
-import com.dev.objects.userObject;
+import com.dev.objects.Message;
+import com.dev.objects.UserObject;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -100,8 +100,8 @@ Persist {
     }
 
 
-    public List<message> getAllMyMessages(String token){
-        List<message> messages = new ArrayList<>();
+    public List<Message> getAllMyMessages(String token){
+        List<Message> messages = new ArrayList<>();
         int id = getUserIdByToken(token);
         try {
             createConnectionToDatabase();
@@ -111,7 +111,7 @@ Persist {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                message message = new message();
+                Message message = new Message();
                 message.setSenderId(resultSet.getInt("senderId"));
                 message.setAddressId(id);
                 message.setBody(resultSet.getString("body"));
@@ -218,7 +218,7 @@ Persist {
     }
 
 
-    public boolean createUser(userObject userObject){
+    public boolean createUser(UserObject userObject){
         boolean done = false;
         try {
             createConnectionToDatabase();

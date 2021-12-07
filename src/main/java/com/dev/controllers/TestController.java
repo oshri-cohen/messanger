@@ -1,8 +1,8 @@
 package com.dev.controllers;
 
 import com.dev.Persist;
-import com.dev.objects.message;
-import com.dev.objects.userObject;
+import com.dev.objects.Message;
+import com.dev.objects.UserObject;
 import com.dev.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +12,6 @@ import javax.annotation.PostConstruct;
 import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,7 +37,7 @@ public class TestController {
     public boolean createAccount (String username, String password) {
         boolean success = false;
         if (!persist.doesUsernameExist(username)) {
-            userObject userObject = new userObject();
+            UserObject userObject = new UserObject();
             userObject.setPassword(password);
             userObject.setUsername(username);
             String hash = Utils.createHash(username, password);
@@ -54,7 +53,7 @@ public class TestController {
     }
 
     @RequestMapping("MyMessages")
-    public List<message> myMessages(String token){
+    public List<Message> myMessages(String token){
         return  persist.getAllMyMessages(token);
     }
 

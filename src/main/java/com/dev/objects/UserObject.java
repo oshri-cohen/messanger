@@ -1,14 +1,14 @@
 
 package com.dev.objects;
 
-public class userObject {
+public class UserObject {
     int id;
     String username;
     String password;
     String token;
     boolean blockUser = false;
 
-    public userObject(int id, String username, String password, String token, boolean blockUser) {
+    public UserObject(int id, String username, String password, String token, boolean blockUser) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -16,7 +16,7 @@ public class userObject {
         this.blockUser = blockUser;
     }
 
-    public userObject(int id, String username, String password, String token) {
+    public UserObject(int id, String username, String password, String token) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -24,14 +24,14 @@ public class userObject {
         this.blockUser = false;
     }
 
-    public userObject(userObject userObject) {
+    public UserObject(UserObject userObject) {
         this.id = userObject.id;
         this.username = userObject.username;
         this.password = userObject.password;
         this.token = userObject.token;
         this.blockUser = userObject.blockUser;
     }
-    public userObject() {
+    public UserObject() {
 
     }
 
