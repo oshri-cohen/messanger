@@ -48,6 +48,11 @@ public class TestController {
         return success;
     }
 
+    @RequestMapping("checkIfUserExistByUsername")
+    public boolean checkIfUserExist(String username){
+        return persist.doesUsernameExist(username);
+    }
+
     @RequestMapping("MyMessages")
     public List<message> myMessages(String token){
         return  persist.getAllMyMessages(token);

@@ -46,9 +46,9 @@ Persist {
                         token = resultSet.getString("token");
                         this.setUserCountLoginFaild(username, 0);
                     }else {
+                        this.setUserCountLoginFaild(username, blocks + 1);
                         if(blocks+1<5){
                             token = "password";
-                            this.setUserCountLoginFaild(username, blocks + 1);
                         }else {
                             token = "block";
                         }
@@ -273,6 +273,7 @@ Persist {
         }
         return success;
     }
+
 
 
 }
