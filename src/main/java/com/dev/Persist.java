@@ -84,7 +84,6 @@ Persist {
 
     public boolean markAsRead(int id){
         createConnectionToDatabase();
-        System.out.println("mark");
         boolean success =false;
         try {
             PreparedStatement preparedStatement1 = this.connection.prepareStatement(
@@ -106,7 +105,7 @@ Persist {
         try {
             createConnectionToDatabase();
             PreparedStatement preparedStatement = this.connection.prepareStatement(
-                    "SELECT messenger.messages.* FROM messages JOIN user u on u.id = messages.addresseeId WHERE addresseeId =?"
+                    "SELECT messenger.messages.* FROM messages JOIN user u on u.id = messages.addresseeId WHERE addresseeId =? order by messages.sendTime DESC"
             );
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();

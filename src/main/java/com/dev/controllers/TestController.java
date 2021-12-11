@@ -57,7 +57,7 @@ public class TestController {
         return  persist.getAllMyMessages(token);
     }
 
-    @RequestMapping("deleteMessage")
+    @RequestMapping("delete-messages")
     public boolean deleteMessage(int id){
         return persist.deleteMessages(id);
     }
